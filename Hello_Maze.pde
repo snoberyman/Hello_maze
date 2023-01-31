@@ -7,7 +7,7 @@
  * @brief      Wall haptic example with programmed physics for a haptic wall 
  **********************************************************************************************************************
  * @attention
- *
+ * Modified by Yaman Sanobar
  *
  **********************************************************************************************************************
  */
@@ -175,7 +175,7 @@ void setup(){
   
   horizontal4 = create_line(-0.04-rEE, 0.06+rEE, -0.13+rEE, 0.06+rEE);
   horizontal5 = create_line(-0.02-rEE, 0.07+rEE, 0.04+rEE, 0.07+rEE);
-  horizontal6 = create_line(-0.08-rEE, 0.08+rEE, -0.04-rEE, 0.08+rEE);
+  horizontal6 = create_line_heavy(-0.08-rEE, 0.08+rEE, -0.04-rEE, 0.08+rEE);
   
   horizontal7 = create_line(0.06+rEE, 0.08+rEE, 0.09+rEE, 0.08+rEE);
   
@@ -290,7 +290,7 @@ class SimulationThread implements Runnable{
                fWall = fWall.add(penWallh3.mult(kWall));
            }
            if((penWallh4.y < 0 && penWallh4.y > -0.01) && (posEE.x < (-0.04-rEE) && posEE.x > (-0.08-rEE))){
-               fWall = fWall.add(penWallh4.mult(-kWall));
+               fWall = fWall.add(penWallh4.mult(-1000));
            }
            if((penWallh4.y < 0 && penWallh4.y > -0.01) && (posEE.x > (0.06+rEE) && posEE.x <(rEE+0.13))){
                fWall = fWall.add(penWallh4.mult(kWall));
@@ -312,9 +312,9 @@ class SimulationThread implements Runnable{
           // horizontal 10,11
            if((penWallh6.y < 0 && penWallh6.y > -0.01) && (posEE.x > (-0.13-rEE) && posEE.x < (-0.02-rEE))){
                if(posEE.y < 0.11){
-               fWall = fWall.add(penWallh6.mult(-100));
+               fWall = fWall.add(penWallh6.mult(-80));
                } else {
-               fWall = fWall.add(penWallh6.mult(100));
+               fWall = fWall.add(penWallh6.mult(80));
                }
            }
            if((penWallh6.y < 0 && penWallh6.y > -0.01) && (posEE.x > (0.04+rEE) && posEE.x < (0.09+rEE))){
@@ -363,7 +363,7 @@ class SimulationThread implements Runnable{
              fWall = fWall.add(penWallv3.mult(kWall));
            }
          if((posEE.y > 0.09 && posEE.y < 0.11) && (penWallv3.x < 0 && penWallv3.x > -0.01) ){
-               if(posEE.x > 0.045){
+               if(posEE.x > 0.04){
                fWall = fWall.add(penWallv3.mult(30));
                } else {
                fWall = fWall.add(penWallv3.mult(-30));
@@ -398,10 +398,6 @@ class SimulationThread implements Runnable{
                fWall = fWall.add(penWallv7.mult(-kWall));
                }
            }
-           
-       
-     
-
       
       fEE = (fWall.copy()).mult(-1);
       fEE.set(graphics_to_device(fEE));
@@ -474,6 +470,17 @@ PShape create_line_medium(float x1, float y1, float x2, float y2){
   
   strokeWeight(3);
   stroke(230);
+  return createShape(LINE, deviceOrigin.x + x1, deviceOrigin.y + y1, deviceOrigin.x + x2, deviceOrigin.y+y2);
+}
+
+PShape create_line_heavy(float x1, float y1, float x2, float y2){
+  x1 = pixelsPerMeter * x1;
+  y1 = pixelsPerMeter * y1;
+  x2 = pixelsPerMeter * x2;
+  y2 = pixelsPerMeter * y2;
+  
+  strokeWeight(9);
+  stroke(220);
   return createShape(LINE, deviceOrigin.x + x1, deviceOrigin.y + y1, deviceOrigin.x + x2, deviceOrigin.y+y2);
 }
 
